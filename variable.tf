@@ -31,3 +31,17 @@ variable "router" {
     region   = string
   })
 }
+
+variable "armor_sec_policy" {
+  type = list(object({
+    policy_name = string
+    project     = string
+    rule = list(object({
+      action         = string
+      priority       = string
+      versioned_expr = string
+      src_ip_range   = list(string)
+      description    = string
+    }))
+  }))
+}

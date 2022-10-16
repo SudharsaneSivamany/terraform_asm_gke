@@ -31,3 +31,39 @@ router = {
   network  = "vpc-gke-1"
   region   = "us-central1"
 }
+
+armor_sec_policy = [{
+  policy_name = "my-policy-1"
+  project     = "my-project"
+  rule = [{
+    action         = "deny(403)"
+    priority       = "2147483647"
+    versioned_expr = "SRC_IPS_V1"
+    src_ip_range   = ["*"]
+    description    = "Default rule, higher priority overrides it"
+    },
+    {
+      action         = "allow"
+      priority       = "1000"
+      versioned_expr = "SRC_IPS_V1"
+      src_ip_range   = ["10.10.0.0/24"]
+      description    = "allow access to IPs in 10.10.0.0/24"
+  }]
+  }, {
+  policy_name = "my-policy-2"
+  project     = "my-project"
+  rule = [{
+    action         = "deny(403)"
+    priority       = "2147483647"
+    versioned_expr = "SRC_IPS_V1"
+    src_ip_range   = ["*"]
+    description    = "Default rule, higher priority overrides it"
+    },
+    {
+      action         = "allow"
+      priority       = "1000"
+      versioned_expr = "SRC_IPS_V1"
+      src_ip_range   = ["14.1.0.0/24"]
+      description    = "allow access to IPs in 14.1.0.0/24"
+  }]
+}]

@@ -21,7 +21,7 @@ module "gke" {
   subnetwork                 = var.gke_cluster.vpc.vpc_subnet
   ip_range_pods              = var.gke_cluster.vpc.vpc_sec_pod
   ip_range_services          = var.gke_cluster.vpc.vpc_sec_svc
-  http_load_balancing        = false
+  http_load_balancing        = true
   network_policy             = false
   horizontal_pod_autoscaling = true
   filestore_csi_driver       = false
@@ -31,6 +31,7 @@ module "gke" {
   remove_default_node_pool   = true
   cluster_resource_labels    = { "mesh_id" : "proj-${data.google_project.project.number}" }
   create_service_account     = false
+  identity_namespace         = "${var.project_id}.svc.id.goog"
 
   master_authorized_networks = var.gke_cluster.master_authorized_networks
 
@@ -46,6 +47,7 @@ module "asm" {
   cluster_location          = module.gke.location
   enable_cni                = true
   enable_fleet_registration = true
+  enable_mesh_feature       = true
 }
 
 
